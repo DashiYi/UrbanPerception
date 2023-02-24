@@ -79,14 +79,20 @@
       const wealth = document.getElementById("wealth").value;
       const depression = document.getElementById("depression").value;
       const boredom = document.getElementById("boredom").value;
-      const data = [safety, liveliness, beauty, wealth, depression, boredom];
+      const data = [safety, liveliness, beauty, wealth, depression, boredom];          
+      const fs = require("fs");
+      fs.appendFile("score.csv", data.join(",") + "\n", function (err) {
+        if (err) {
+          console.log(err);
+        }
+      });
       const csvContent = "data:text/csv;charset=utf-8," + data.join(",");
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
       link.setAttribute("download", "score.csv");
       document.body.appendChild(link);
-      link.click();         
+      link.click();      
     }
   </script>
 </body>
