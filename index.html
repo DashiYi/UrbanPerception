@@ -1,0 +1,93 @@
+ <!DOCTYPE html>
+<html>
+ <head>
+  <style>
+    body {
+      text-align: center;
+    }
+     #img {
+      width: 800px;
+      height: 500px;
+    }
+     .input-slider {
+      -webkit-appearance: none;
+      width: 450px;
+      height: 15px;
+      border-radius: 5px;
+      background: #d3d3d3;
+      outline: none;
+      opacity: 0.7;
+      -webkit-transition: .2s;
+      transition: opacity .2s;
+    }
+     .input-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+     .input-slider::-moz-range-thumb {
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: #4CAF50;
+      cursor: pointer;
+    }
+  </style>
+</head>
+ <body>
+  <img src="https://md-picgo-bucket.oss-cn-beijing.aliyuncs.com/img/20230224231012.png" id="img" />
+  <div>
+    <form>
+      安全感：<br>
+      <input type="range" min="0" max="100" value="50" class="input-slider" name="safety" id="safety" />
+      <span id="safety_score"></span>  <br>
+      活泼感：<br>
+      <input type="range" min="0" max="100" value="50" class="input-slider" name="liveliness" id="liveliness" />
+      <span id="liveliness_score"></span>  <br>
+      美丽感：<br>
+      <input type="range" min="0" max="100" value="50" class="input-slider" name="beauty" id="beauty" />
+      <span id="beauty_score"></span>   <br>
+      富裕感：<br>
+      <input type="range" min="0" max="100" value="50" class="input-slider" name="wealth" id="wealth" />
+      <span id="wealth_score"></span>  <br>
+      压抑感：<br>
+      <input type="range" min="0" max="100" value="50" class="input-slider" name="depression" id="depression" />
+      <span id="depression_score"></span> <br>
+      无聊感：<br>
+      <input type="range" min="0" max="100" value="50" class="input-slider" name="boredom" id="boredom" />
+      <span id="boredom_score"></span>  <br> 
+      <input type="submit" value="提交结果" onclick="submitScore()" />
+    </form>
+  </div>
+   <script>
+    const sliders = document.querySelectorAll(".input-slider");
+    const scores = document.querySelectorAll("span");
+     sliders.forEach((slider, index) => {
+      slider.addEventListener("input", (e) => {
+        const sliderValue = e.target.value;
+        scores[index].innerText = sliderValue;
+      });
+    });
+     function submitScore() {
+      const safety = document.getElementById("safety").value;
+      const liveliness = document.getElementById("liveliness").value;
+      const beauty = document.getElementById("beauty").value;
+      const wealth = document.getElementById("wealth").value;
+      const depression = document.getElementById("depression").value;
+      const boredom = document.getElementById("boredom").value;
+      const data = [safety, liveliness, beauty, wealth, depression, boredom];
+      const csvContent = "data:text/csv;charset=utf-8," + data.join(",");
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", "score.csv");
+      document.body.appendChild(link);
+      link.click();         
+    }
+  </script>
+</body>
+ </html>
